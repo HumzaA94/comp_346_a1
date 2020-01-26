@@ -5,12 +5,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//seeing if this worked
+//testing this last time
 /**
  *
  * @author Kerly Titus
  */
-//hello
 public class comp346pa1driver {
 
     /** 
