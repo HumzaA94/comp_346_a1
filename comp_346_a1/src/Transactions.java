@@ -10,7 +10,7 @@
  *
  * @author Kerly Titus
  */
-public class Transactions {
+public class Transactions extends Thread{
     
     private String accountNumber;       /* Account number */
     private String operationType;       /* Operation type : deposit, withdrawal, query */

@@ -10,7 +10,7 @@
  *
  * @author Kerly Titus
  */
-public class comp346pa1driver {
+public class comp346pa1driver extends Thread{
 
     /** 
      * main class

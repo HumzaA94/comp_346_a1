@@ -10,7 +10,7 @@
  *
  * @author Kerly Titus
  */
-public class Accounts {
+public class Accounts extends Thread {
     
     private String accountNumber;       /* Unique account number */
     private String accountType;         /* chequing, saving, credit */
