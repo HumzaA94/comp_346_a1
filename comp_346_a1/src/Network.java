@@ -529,8 +529,7 @@ public class Network extends Thread {
          }
          else
              return false;
-     }
-         
+     }         
      /**
       *  Create a String representation based on the Network Object
       * 
@@ -555,8 +554,9 @@ public class Network extends Thread {
     {	
     	System.out.println("\n DEBUG : Network.run() - starting network thread");
     	
-    	while (true)
+    	while (getClientConnectionStatus().equals("disconnected")&getServerConnectionStatus().equals("disconnected"))
     	{
+    		System.exit(0);
 		/* Implement the code for the run method */
     	}    
     }

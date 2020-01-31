@@ -213,7 +213,10 @@ public class Client extends Thread {
     {   
     	Transactions transact = new Transactions();
     	long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
-    
+    	
+    	sendTransactions();
+    	receiveTransactions(transact);
+   
 	/* Implement the code for the run method */
     }
 }
