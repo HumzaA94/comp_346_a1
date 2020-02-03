@@ -191,6 +191,7 @@ public class Client extends Thread {
             System.out.println(transact);                               	/* Display updated transaction */    
             i++;
          } 
+         Thread.yield();
     }
      
     /** 
