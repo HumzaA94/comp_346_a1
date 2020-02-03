@@ -192,7 +192,6 @@ public class Client extends Thread {
             i++;
          } 
          
-         Thread.yield();
     }
      
     /** 
