@@ -1,4 +1,11 @@
-
+/*
+Student 1:
+Name: Wilson La
+ID: 27738986
+Student 2:
+Name: Humza Ahmed
+ID: 27481551
+*/
 
 import java.util.Scanner;
 import java.io.FileInputStream;
@@ -140,7 +147,7 @@ public class Client extends Thread {
         }
         setNumberOfTransactions(i);		/* Record the number of transactions processed */
         
-        System.out.println("\n DEBUG : Client.readTransactions() - " + getNumberOfTransactions() + " transactions processed");
+//        System.out.println("\n DEBUG : Client.readTransactions() - " + getNumberOfTransactions() + " transactions processed");
         
         inputStream.close( );
 
@@ -158,15 +165,18 @@ public class Client extends Thread {
          
          while (i < getNumberOfTransactions())
          {  
-            // while( objNetwork.getInBufferStatus().equals("full") );     /* Alternatively, busy-wait until the network input buffer is available */
-                                             	
+             
             transaction[i].setTransactionStatus("sent");   /* Set current transaction status */
            
-            System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber());
+ //           System.out.println("\n DEBUG : Client.sendTransactions() - sending transaction on account " + transaction[i].getAccountNumber());
             
             objNetwork.send(transaction[i]);                            /* Transmit current transaction */
             i++;
          }
+         while( objNetwork.getInBufferStatus().equals("full") ) {
+        	 Thread.yield();
+         }
+        
          
     }
          
@@ -182,15 +192,18 @@ public class Client extends Thread {
          
          while (i < getNumberOfTransactions())
          {     
-        	 // while( objNetwork.getOutBufferStatus().equals("empty"));  	/* Alternatively, busy-wait until the network output buffer is available */
+        	
                                                                         	
             objNetwork.receive(transact);                               	/* Receive updated transaction from the network buffer */
             
-            System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber());
+//            System.out.println("\n DEBUG : Client.receiveTransactions() - receiving updated transaction on account " + transact.getAccountNumber());
             
             System.out.println(transact);                               	/* Display updated transaction */    
             i++;
          } 
+         while( (objNetwork.getOutBufferStatus().equals("empty"))&objNetwork.getOutBufferStatus().equals("full")) {
+   		  Thread.yield();
+   	  }
          
     }
      
@@ -215,12 +228,25 @@ public class Client extends Thread {
     	Transactions transact = new Transactions();
     	long sendClientStartTime, sendClientEndTime, receiveClientStartTime, receiveClientEndTime;
     	sendClientStartTime = System.currentTimeMillis();
-    	sendTransactions();
-    	sendClientEndTime = System.currentTimeMillis();
+    	if (!objNetwork.getInBufferStatus().equals("full")) {
+    		sendTransactions();
+    		sendClientEndTime = System.currentTimeMillis();
+        	System.out.println("\n Terminating client sending thread - Running time " + (sendClientEndTime-sendClientStartTime)+ " milliseconds");}
+
+
+    	if(objNetwork.getInBufferStatus().equals("full"))
+    		Thread.yield();
     	receiveClientStartTime = System.currentTimeMillis();
-    	receiveTransactions(transact);
-    	receiveClientEndTime = System.currentTimeMillis();
-   
+    	if (!objNetwork.getOutBufferStatus().equals("empty")|!objNetwork.getOutBufferStatus().equals("full")) {
+    		receiveTransactions(transact);
+        	receiveClientEndTime = System.currentTimeMillis();}
+
+    	if (objNetwork.getInBufferStatus().equals("full")|objNetwork.getOutBufferStatus().equals("full")|objNetwork.getOutBufferStatus().equals("empty"))
+    		Thread.yield();
+    	
+    	objNetwork.setClientConnectionStatus("disconnected");
+  
+    	
 	/* Implement the code for the run method */
     }
 }
