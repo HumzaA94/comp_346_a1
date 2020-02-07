@@ -239,11 +239,11 @@ public class Client extends Thread {
     	receiveClientStartTime = System.currentTimeMillis();
     	if (!objNetwork.getOutBufferStatus().equals("empty")|!objNetwork.getOutBufferStatus().equals("full")) {
     		receiveTransactions(transact);
-        	receiveClientEndTime = System.currentTimeMillis();}
+        	receiveClientEndTime = System.currentTimeMillis();
+        	System.out.println("\n Terminating client receiving thread - Running time " + (receiveClientEndTime-receiveClientStartTime)+ " milliseconds");}
 
     	if (objNetwork.getInBufferStatus().equals("full")|objNetwork.getOutBufferStatus().equals("full")|objNetwork.getOutBufferStatus().equals("empty"))
     		Thread.yield();
-    	
     	objNetwork.setClientConnectionStatus("disconnected");
   
     	
